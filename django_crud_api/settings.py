@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
+
+env = environ.Env(
+    DEBUG=(bool, False)  # Define el tipo de variable (en este caso, DEBUG será un booleano)
+)
+environ.Env.read_env('.env')  # Lee las variables de entorno desde el archivo .env
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-shmdz_up0tq@!az256f7^es!r(0jar6l-*cnpj249=@#(f&_b%'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -37,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'task',
+    'app.task',
     'coreapi',
     'rest_framework',
     'corsheaders',
@@ -54,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
+CORS_ALLOWED_ORIGINS = [env('VITE_API_URL')]
 
 ROOT_URLCONF = 'django_crud_api.urls'
 
@@ -81,11 +89,9 @@ WSGI_APPLICATION = 'django_crud_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db(),  
 }
+
 
 
 # Password validation
