@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ['https://react-front-phi.vercel.app/task']
+CORS_ALLOWED_ORIGINS = ['https://react-front-phi.vercel.app']
 
 ROOT_URLCONF = 'django_crud_api.urls'
 
